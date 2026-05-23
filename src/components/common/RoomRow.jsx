@@ -22,7 +22,7 @@ export default function RoomRow({ salon, lectura, alEditar, alMonitorear }) {
   return (
     <tr className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
       {/* Nombre */}
-      <td className="px-4 py-3">
+      <td className="px-2 py-2 lg:px-4 lg:py-3">
         <p className="font-medium text-dark text-sm">{salon.name}</p>
         <p className="text-xs text-muted">
           {salon.pavilion && `${salon.pavilion} · `}
@@ -31,27 +31,27 @@ export default function RoomRow({ salon, lectura, alEditar, alMonitorear }) {
       </td>
 
       {/* Estado */}
-      <td className="px-4 py-3">
+      <td className="px-2 py-2 lg:px-4 lg:py-3">
         <InsigniaEstado lectura={lectura} />
       </td>
 
       {/* Temperatura */}
-      <td className="px-4 py-3 text-sm">
+      <td className="px-2 py-2 lg:px-4 lg:py-3 text-sm">
         <ColorTemperatura temperatura={lectura?.temperature ?? null} />
       </td>
 
       {/* Humedad */}
-      <td className="px-4 py-3 text-sm text-dark">
+      <td className="px-2 py-2 lg:px-4 lg:py-3 text-sm text-dark hidden md:table-cell">
         {lectura?.humidity != null ? `${lectura.humidity.toFixed(0)} %` : "—"}
       </td>
 
       {/* Consumo */}
-      <td className="px-4 py-3 text-sm text-dark">
+      <td className="px-2 py-2 lg:px-4 lg:py-3 text-sm text-dark hidden md:table-cell">
         {lectura?.power_w != null ? `${lectura.power_w.toFixed(0)} W` : "—"}
       </td>
 
       {/* AC */}
-      <td className="px-4 py-3">
+      <td className="px-2 py-2 lg:px-4 lg:py-3">
         {lectura?.ac_is_on
           ? <span className="badge-success">Encendido</span>
           : <span className="badge-muted">Apagado</span>
@@ -59,12 +59,12 @@ export default function RoomRow({ salon, lectura, alEditar, alMonitorear }) {
       </td>
 
       {/* Capacidad */}
-      <td className="px-4 py-3 text-sm text-dark">
+      <td className="px-2 py-2 lg:px-4 lg:py-3 text-sm text-dark hidden lg:table-cell">
         {salon.capacity != null ? `${salon.capacity} personas` : "—"}
       </td>
 
       {/* Acciones */}
-      <td className="px-4 py-3">
+      <td className="px-2 py-2 lg:px-4 lg:py-3">
         <div className="flex items-center gap-1">
           <button
             onClick={alMonitorear}

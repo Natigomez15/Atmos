@@ -22,6 +22,16 @@
   }
 }
 
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer components {
   .card {
     @apply bg-surface rounded-2xl shadow-sm border border-gray-100 p-6;

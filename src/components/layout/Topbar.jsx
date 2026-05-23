@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { MdNotifications } from "react-icons/md"
+import { MdNotifications, MdMenu } from "react-icons/md"
 
 const TITULOS_PAGINA = {
   "/dashboard":   "Panel de Control",
@@ -26,7 +26,7 @@ function formatearFecha(fecha) {
   })
 }
 
-export default function Topbar({ cantidadAlertas = 0, wsConectado = false }) {
+export default function Topbar({ cantidadAlertas = 0, wsConectado = false, alAbrirMenu }) {
   const ubicacion = useLocation()
   const navegar   = useNavigate()
   const titulo    = TITULOS_PAGINA[ubicacion.pathname] ?? "ATMOS"
@@ -39,25 +39,37 @@ export default function Topbar({ cantidadAlertas = 0, wsConectado = false }) {
   }, [])
 
   return (
-    <header className="h-16 bg-surface border-b border-gray-100 flex items-center justify-between px-6 flex-shrink-0">
-      {/* Izquierda — título de página */}
-      <h1 className="text-lg font-semibold text-dark">{titulo}</h1>
+    <header className="fixed top-0 right-0 left-0 md:left-16 lg:left-60 h-16 bg-white border-b border-gray-100
+                       flex items-center justify-between px-4 lg:px-6 z-30 transition-all duration-300">
+      {/* Izquierda */}
+      <div className="flex items-center gap-3 min-w-0">
+        {/* Hamburguesa — solo mobile */}
+        <button
+          onClick={alAbrirMenu}
+          className="md:hidden text-dark flex-shrink-0"
+          aria-label="Abrir menú"
+        >
+          <MdMenu size={24} />
+        </button>
 
-      {/* Derecha — indicadores de estado */}
-      <div className="flex items-center gap-5">
-        {/* Estado de conexión */}
+        <h1 className="text-base lg:text-lg font-semibold text-dark truncate">{titulo}</h1>
+      </div>
+
+      {/* Derecha */}
+      <div className="flex items-center gap-3 lg:gap-5 flex-shrink-0">
+        {/* Estado WebSocket */}
         <div className="flex items-center gap-1.5">
           <span
-            className={`w-2 h-2 rounded-full ${
+            className={`w-2 h-2 rounded-full flex-shrink-0 ${
               wsConectado ? "bg-success animate-pulse" : "bg-danger"
             }`}
           />
-          <span className="text-xs text-muted">
+          <span className="hidden md:block text-xs text-muted">
             {wsConectado ? "Conectado" : "Desconectado"}
           </span>
         </div>
 
-        {/* Campana de alertas */}
+        {/* Campana */}
         <button
           onClick={() => navegar("/alerts")}
           className="relative cursor-pointer text-muted hover:text-dark transition-colors"
@@ -65,14 +77,16 @@ export default function Topbar({ cantidadAlertas = 0, wsConectado = false }) {
         >
           <MdNotifications size={20} />
           {cantidadAlertas > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-0.5 bg-danger text-white text-[10px] font-medium rounded-full flex items-center justify-center">
+            <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-0.5
+                             bg-danger text-white text-[10px] font-medium rounded-full
+                             flex items-center justify-center">
               {cantidadAlertas}
             </span>
           )}
         </button>
 
-        {/* Fecha y hora */}
-        <span className="text-xs text-muted">{ahora}</span>
+        {/* Fecha/hora — oculta en mobile */}
+        <span className="hidden md:block text-xs text-muted">{ahora}</span>
       </div>
     </header>
   )

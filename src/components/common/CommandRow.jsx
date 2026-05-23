@@ -101,7 +101,7 @@ export default function CommandRow({ comando, nombreSalon }) {
       </td>
 
       {/* Fuente */}
-      <td className="px-4 py-3">
+      <td className="px-4 py-3 hidden md:table-cell">
         <InsigniaFuente fuente={comando.source} />
       </td>
 
@@ -116,7 +116,7 @@ export default function CommandRow({ comando, nombreSalon }) {
       </td>
 
       {/* Ejecutado */}
-      <td className="px-4 py-3 text-sm">
+      <td className="px-4 py-3 text-sm hidden lg:table-cell">
         {comando.was_executed ? (
           <span className="text-dark">
             {formatearHora(comando.executed_at)}

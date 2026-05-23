@@ -34,7 +34,7 @@ export default function KPICard({
   return (
     <div className="card">
       <div className="flex items-start justify-between">
-        <div className={`w-10 h-10 rounded-full ${fondo} flex items-center justify-center`}>
+        <div className={`w-8 h-8 lg:w-10 lg:h-10 rounded-full ${fondo} flex items-center justify-center`}>
           <span className={texto}>{icono}</span>
         </div>
         {tendencia != null && (
@@ -50,7 +50,7 @@ export default function KPICard({
 
       <p className="mt-4 text-xs text-muted">{titulo}</p>
       <div className="flex items-baseline gap-1 mt-0.5">
-        <span className="text-3xl font-bold text-dark">{valor}</span>
+        <span className="text-2xl lg:text-3xl font-bold text-dark">{valor}</span>
         {unidad && <span className="text-sm text-muted">{unidad}</span>}
       </div>
     </div>

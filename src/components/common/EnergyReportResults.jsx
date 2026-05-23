@@ -89,9 +89,17 @@ export default function EnergyReportResults({ reporte, alDescargar }) {
         <table className="w-full text-sm">
           <thead className="bg-gray-50">
             <tr>
-              {["Salón", "Consumo (kWh)", "Costo (USD)", "Temp avg", "Presencia", "AC on (h)", "Ahorro est."].map(enc => (
-                <th key={enc} className="px-4 py-2 text-left text-xs font-semibold text-muted uppercase tracking-wide">
-                  {enc}
+              {[
+                { texto: "Salón",         clase: "" },
+                { texto: "Consumo (kWh)", clase: "" },
+                { texto: "Costo (USD)",   clase: "" },
+                { texto: "Temp avg",      clase: "hidden md:table-cell" },
+                { texto: "Presencia",     clase: "hidden md:table-cell" },
+                { texto: "AC on (h)",     clase: "hidden lg:table-cell" },
+                { texto: "Ahorro est.",   clase: "" },
+              ].map(enc => (
+                <th key={enc.texto} className={`px-4 py-2 text-left text-xs font-semibold text-muted uppercase tracking-wide ${enc.clase}`}>
+                  {enc.texto}
                 </th>
               ))}
             </tr>
@@ -104,11 +112,11 @@ export default function EnergyReportResults({ reporte, alDescargar }) {
                 <td className={`px-4 py-2 font-medium ${salon.estimated_cost === maxCosto ? "text-warning" : "text-dark"}`}>
                   ${salon.estimated_cost?.toFixed(2) ?? "—"}
                 </td>
-                <td className="px-4 py-2 text-dark">{salon.avg_temperature?.toFixed(1) ?? "—"} °C</td>
-                <td className="px-4 py-2 text-dark">
+                <td className="px-4 py-2 text-dark hidden md:table-cell">{salon.avg_temperature?.toFixed(1) ?? "—"} °C</td>
+                <td className="px-4 py-2 text-dark hidden md:table-cell">
                   {salon.presence_ratio != null ? `${(salon.presence_ratio * 100).toFixed(0)}%` : "—"}
                 </td>
-                <td className="px-4 py-2 text-dark">{salon.ac_on_hours?.toFixed(1) ?? "—"} h</td>
+                <td className="px-4 py-2 text-dark hidden lg:table-cell">{salon.ac_on_hours?.toFixed(1) ?? "—"} h</td>
                 <td className="px-4 py-2">
                   {salon.savings_pct != null
                     ? <span className="badge-success">{salon.savings_pct.toFixed(1)}%</span>
@@ -123,9 +131,9 @@ export default function EnergyReportResults({ reporte, alDescargar }) {
                 <td className="px-4 py-2 text-dark text-xs uppercase tracking-wide">Total pabellón</td>
                 <td className="px-4 py-2 text-dark">{totalKwh.toFixed(3)}</td>
                 <td className="px-4 py-2 text-dark">${totalCosto.toFixed(2)}</td>
-                <td className="px-4 py-2 text-dark">{salones.length ? (sumaTemp / salones.length).toFixed(1) : "—"} °C</td>
-                <td className="px-4 py-2 text-dark">{salones.length ? `${(sumaPresencia / salones.length * 100).toFixed(0)}%` : "—"}</td>
-                <td className="px-4 py-2 text-dark">{salones.length ? (sumaHorasAC / salones.length).toFixed(1) : "—"} h</td>
+                <td className="px-4 py-2 text-dark hidden md:table-cell">{salones.length ? (sumaTemp / salones.length).toFixed(1) : "—"} °C</td>
+                <td className="px-4 py-2 text-dark hidden md:table-cell">{salones.length ? `${(sumaPresencia / salones.length * 100).toFixed(0)}%` : "—"}</td>
+                <td className="px-4 py-2 text-dark hidden lg:table-cell">{salones.length ? (sumaHorasAC / salones.length).toFixed(1) : "—"} h</td>
                 <td className="px-4 py-2 text-dark">{isNaN(promedioAhorro) ? "—" : `${promedioAhorro.toFixed(1)}%`}</td>
               </tr>
             )}

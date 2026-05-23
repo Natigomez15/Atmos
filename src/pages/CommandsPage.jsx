@@ -7,7 +7,14 @@ import QuickCommandForm  from "../components/common/QuickCommandForm"
 import CommandRow        from "../components/common/CommandRow"
 import { obtenerComandos, obtenerSalonesComandos } from "../api/commands"
 
-const ENCABEZADOS_TABLA = ["Salón", "Comando", "Fuente", "Estado", "Enviado", "Ejecutado"]
+const ENCABEZADOS_TABLA = [
+  { texto: "Salón",    clase: "" },
+  { texto: "Comando",  clase: "" },
+  { texto: "Fuente",   clase: "hidden md:table-cell" },
+  { texto: "Estado",   clase: "" },
+  { texto: "Enviado",  clase: "" },
+  { texto: "Ejecutado", clase: "hidden lg:table-cell" },
+]
 
 function minutosDesde(iso) {
   if (!iso) return 0
@@ -146,12 +153,12 @@ export default function CommandsPage() {
             <table className="w-full text-sm">
               <thead className="bg-gray-50 sticky top-0">
                 <tr>
-                  {ENCABEZADOS_TABLA.map(encabezado => (
+                  {ENCABEZADOS_TABLA.map(enc => (
                     <th
-                      key={encabezado}
-                      className="px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide"
+                      key={enc.texto}
+                      className={`px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide ${enc.clase}`}
                     >
-                      {encabezado}
+                      {enc.texto}
                     </th>
                   ))}
                 </tr>

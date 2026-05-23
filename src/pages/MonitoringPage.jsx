@@ -368,9 +368,17 @@ export default function MonitoringPage() {
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-gray-100">
-                {["Hora", "Temp", "Humedad", "Presencia", "AC", "Potencia", "Energía"].map(col => (
-                  <th key={col} className="text-left pb-2 pr-4 text-muted font-medium uppercase tracking-wide">
-                    {col}
+                {[
+                  { etiqueta: "Hora",      clase: "" },
+                  { etiqueta: "Temp",      clase: "" },
+                  { etiqueta: "Humedad",   clase: "hidden lg:table-cell" },
+                  { etiqueta: "Presencia", clase: "" },
+                  { etiqueta: "AC",        clase: "" },
+                  { etiqueta: "Potencia",  clase: "" },
+                  { etiqueta: "Energía",   clase: "hidden md:table-cell" },
+                ].map(col => (
+                  <th key={col.etiqueta} className={`text-left pb-2 pr-4 text-muted font-medium uppercase tracking-wide ${col.clase}`}>
+                    {col.etiqueta}
                   </th>
                 ))}
               </tr>
@@ -385,7 +393,7 @@ export default function MonitoringPage() {
                   <td className="py-2 pr-4 font-medium text-dark">
                     {lectura.temperature?.toFixed(1) ?? "—"} °C
                   </td>
-                  <td className="py-2 pr-4 font-medium text-dark">
+                  <td className="py-2 pr-4 font-medium text-dark hidden lg:table-cell">
                     {lectura.humidity?.toFixed(0) ?? "—"} %
                   </td>
                   <td className="py-2 pr-4">
@@ -403,7 +411,7 @@ export default function MonitoringPage() {
                   <td className="py-2 pr-4 font-medium text-dark">
                     {lectura.power_w?.toFixed(0) ?? "—"} W
                   </td>
-                  <td className="py-2 font-medium text-dark">
+                  <td className="py-2 font-medium text-dark hidden md:table-cell">
                     {lectura.energy_wh?.toFixed(2) ?? "—"} Wh
                   </td>
                 </tr>

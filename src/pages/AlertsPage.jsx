@@ -124,7 +124,7 @@ export default function AlertsPage() {
               : <p className="text-sm text-success mt-0.5">Sin alertas activas</p>
             }
           </div>
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex flex-col sm:flex-row gap-2">
             <button
               onClick={manejarEjecutarChecks}
               disabled={ejecutandoChecks}
@@ -169,12 +169,12 @@ export default function AlertsPage() {
         )}
 
         {/* ROW 3 — Filtros */}
-        <div className="card flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap gap-2">
+        <div className="card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-2">
             <select
               value={filtroSalon}
               onChange={e => setFiltroSalon(e.target.value)}
-              className={estiloSelect}
+              className={`${estiloSelect} w-full sm:w-auto`}
             >
               <option value="">Todos los salones</option>
               {salones.map(s => (
@@ -185,7 +185,7 @@ export default function AlertsPage() {
             <select
               value={filtroSeveridad}
               onChange={e => setFiltroSeveridad(e.target.value)}
-              className={estiloSelect}
+              className={`${estiloSelect} w-full sm:w-auto`}
             >
               <option value="">Toda severidad</option>
               <option value="high">Alta</option>
@@ -196,7 +196,7 @@ export default function AlertsPage() {
             <select
               value={filtroTipo}
               onChange={e => setFiltroTipo(e.target.value)}
-              className={estiloSelect}
+              className={`${estiloSelect} w-full sm:w-auto`}
             >
               <option value="">Todos los tipos</option>
               <option value="node_offline">Nodo sin señal</option>

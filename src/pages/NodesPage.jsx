@@ -102,7 +102,7 @@ export default function NodesPage() {
         </div>
 
         {/* Conteos */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-2 lg:gap-4">
           <TarjetaConteo
             icono={<MdWifi size={22} />}
             etiqueta="En línea"
@@ -124,7 +124,7 @@ export default function NodesPage() {
         </div>
 
         {/* Filtros */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2">
           <select
             value={filtroSalon}
             onChange={e => setFiltroSalon(e.target.value)}
@@ -184,7 +184,7 @@ export default function NodesPage() {
 
         {/* Grid de nodos */}
         {cargandoNodos
-          ? <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          ? <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="card h-48 animate-pulse bg-gray-100" />
               ))}
@@ -199,7 +199,7 @@ export default function NodesPage() {
                   }
                 </p>
               </div>
-            : <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {nodosFiltrados.map(nodo => (
                   <NodeCard
                     key={nodo.id}

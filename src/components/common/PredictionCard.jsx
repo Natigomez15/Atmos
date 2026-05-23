@@ -72,13 +72,13 @@ export default function PredictionCard({ prediccion, alAplicar, aplicando }) {
           {/* Métricas */}
           <div className="grid grid-cols-3 gap-2 py-2">
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-3xl font-bold text-primary">
+              <span className="text-2xl lg:text-3xl font-bold text-primary">
                 {prediccion.recommended_setpoint}°C
               </span>
               <p className="text-xs text-muted text-center">Setpoint óptimo</p>
             </div>
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-3xl font-bold text-success">
+              <span className="text-2xl lg:text-3xl font-bold text-success">
                 {prediccion.predicted_savings_pct?.toFixed(1)}%
               </span>
               <p className="text-xs text-muted text-center">Ahorro estimado</p>

@@ -83,7 +83,7 @@ export default function DashboardPage() {
   return (
     <PageWrapper>
       {/* ── Sección 1: Encabezado ───────────────────────────────────── */}
-      <div className="flex items-start justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-dark">Bienvenida, ATMOS</h2>
           <p className="text-sm text-muted mt-0.5 capitalize">{etiquetaHoy()}</p>

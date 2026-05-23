@@ -117,12 +117,12 @@ export default function ReportsPage() {
         </div>
 
         {/* Pestañas */}
-        <div className="flex gap-1 bg-gray-100 p-1 rounded-xl w-fit">
+        <div className="flex gap-1 bg-gray-100 p-1 rounded-xl overflow-x-auto hide-scrollbar w-full sm:w-fit">
           {PESTANAS.map(p => (
             <button
               key={p.id}
               onClick={() => setPestanaActiva(p.id)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0 ${
                 pestanaActiva === p.id
                   ? "bg-white text-dark shadow-sm"
                   : "text-muted hover:text-dark"
@@ -136,20 +136,20 @@ export default function ReportsPage() {
 
         {/* Pestaña: Generar reporte */}
         {pestanaActiva === "generar" && (
-          <div className="grid grid-cols-1 lg:grid-cols-[35%_1fr] gap-4 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
             <ReportGeneratorForm
               salones={salones}
               alGenerar={setResultadoReporte}
               alDescargar={() => {}}
             />
             {resultadoReporte
-              ? <div className="card">
+              ? <div className="card lg:col-span-2">
                   <EnergyReportResults
                     reporte={resultadoReporte}
                     alDescargar={manejarDescargarDesdeResultados}
                   />
                 </div>
-              : <div className="card flex flex-col items-center justify-center h-64 gap-3">
+              : <div className="card lg:col-span-2 flex flex-col items-center justify-center h-48 lg:h-64 gap-3">
                   <MdAssessment size={40} className="text-gray-300" />
                   <p className="text-muted text-sm text-center">
                     Configura los parámetros y presiona<br />

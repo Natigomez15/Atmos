@@ -49,7 +49,7 @@ export default function NodeCard({ nodo, alActualizar }) {
   }
 
   return (
-    <div className={`card flex flex-col gap-3 transition-opacity ${!estaActivo ? "opacity-60" : ""}`}>
+    <div className={`card p-4 lg:p-6 flex flex-col gap-3 transition-opacity ${!estaActivo ? "opacity-60" : ""}`}>
       {/* Encabezado */}
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-2">

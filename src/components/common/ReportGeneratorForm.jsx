@@ -114,7 +114,7 @@ export default function ReportGeneratorForm({ salones = [], alGenerar, alDescarg
             {salonesSeleccionados.length === salones.length ? "Quitar todos" : "Seleccionar todos"}
           </button>
         </div>
-        <div className="grid grid-cols-2 gap-1.5 max-h-40 overflow-y-auto pr-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-40 overflow-y-auto pr-1">
           {salones.map(salon => (
             <label
               key={salon.id}

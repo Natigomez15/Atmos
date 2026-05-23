@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom"
+import { MdClose } from "react-icons/md"
 import logoAtmos from "../../assets/logo_atmos.png"
 import {
   MdDashboard,
@@ -37,64 +38,102 @@ function ElementoNav({ elemento, cantidadAlertas }) {
   return (
     <NavLink
       to={elemento.ruta}
+      title={elemento.etiqueta}
       className={({ isActive }) =>
         isActive ? `${estiloBase} ${estiloActivo}` : estiloBase
       }
     >
-      <Icono size={18} />
-      <span className="flex-1">{elemento.etiqueta}</span>
+      <Icono size={18} className="flex-shrink-0" />
+      <span className="block md:hidden lg:block flex-1">{elemento.etiqueta}</span>
       {elemento.ruta === "/alerts" && cantidadAlertas > 0 && (
-        <span className="relative flex items-center justify-center w-5 h-5">
+        <span className="relative flex items-center justify-center w-5 h-5 flex md:hidden lg:flex">
           <span className="absolute inline-flex w-full h-full rounded-full bg-danger opacity-40 animate-ping" />
           <span className="relative flex items-center justify-center w-4 h-4 rounded-full bg-danger text-white text-[10px] font-bold leading-none">
             {cantidadAlertas > 9 ? "9+" : cantidadAlertas}
           </span>
         </span>
       )}
+      {/* Punto compacto para tablet */}
+      {elemento.ruta === "/alerts" && cantidadAlertas > 0 && (
+        <span className="lg:hidden absolute top-1 right-1 w-2 h-2 rounded-full bg-danger" />
+      )}
     </NavLink>
   )
 }
 
-export default function Sidebar({ cantidadAlertas = 0 }) {
+export default function Sidebar({ cantidadAlertas = 0, estaAbierto = false, alCerrar }) {
   return (
-    <aside className="w-60 min-h-screen bg-surface border-r border-gray-100 flex flex-col flex-shrink-0">
-      {/* Logo */}
-      <div className="px-6 pt-6 pb-4 flex flex-col items-center">
-        <img
-          src={logoAtmos}
-          alt="ATMOS"
-          className="h-10 w-auto object-contain mx-auto"
+    <>
+      {/* Overlay en mobile */}
+      {estaAbierto && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={alCerrar}
         />
-        <p className="text-xs text-muted mt-0.5 text-center">Sistema de Control Energético</p>
-        <hr className="mt-4 border-gray-100" />
-      </div>
+      )}
 
-      {/* Navegación principal */}
-      <nav className="flex-1 px-0 py-2">
-        <p className="px-6 mb-2 text-xs font-semibold text-muted uppercase tracking-wider">
-          Menú Principal
-        </p>
-        <div className="flex flex-col gap-0.5">
-          {navPrincipal.map((elemento) => (
-            <ElementoNav key={elemento.ruta} elemento={elemento} cantidadAlertas={cantidadAlertas} />
-          ))}
+      <aside
+        className={`
+          fixed left-0 top-0 h-full bg-white border-r border-gray-100
+          flex flex-col flex-shrink-0 z-50
+          transition-transform duration-300 ease-in-out
+          w-64 md:w-16 lg:w-60
+          ${estaAbierto ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+        `}
+      >
+        {/* Logo */}
+        <div className="px-4 pt-6 pb-4 flex flex-col items-center relative">
+          {/* Botón cerrar — solo mobile */}
+          <button
+            onClick={alCerrar}
+            className="md:hidden absolute right-3 top-4 text-muted hover:text-dark transition-colors"
+          >
+            <MdClose size={20} />
+          </button>
+
+          <img
+            src={logoAtmos}
+            alt="ATMOS"
+            className="h-10 w-auto object-contain mx-auto"
+          />
+          <p className="block md:hidden lg:block text-xs text-muted mt-0.5 text-center">
+            Sistema de Control Energético
+          </p>
+          <hr className="mt-4 border-gray-100 w-full" />
         </div>
 
-        <p className="px-6 mt-6 mb-2 text-xs font-semibold text-muted uppercase tracking-wider">
-          Sistema
-        </p>
-        <div className="flex flex-col gap-0.5">
-          {navSistema.map((elemento) => (
-            <ElementoNav key={elemento.ruta} elemento={elemento} cantidadAlertas={cantidadAlertas} />
-          ))}
-        </div>
-      </nav>
+        {/* Navegación principal */}
+        <nav className="flex-1 px-0 py-2 overflow-y-auto hide-scrollbar">
+          <p className="block md:hidden lg:block px-6 mb-2 text-xs font-semibold text-muted uppercase tracking-wider">
+            Menú Principal
+          </p>
+          <div className="flex flex-col gap-0.5">
+            {navPrincipal.map((elemento) => (
+              <div key={elemento.ruta} className="relative">
+                <ElementoNav elemento={elemento} cantidadAlertas={cantidadAlertas} />
+              </div>
+            ))}
+          </div>
 
-      {/* Pie de página */}
-      <div className="px-6 py-4">
-        <p className="text-xs text-muted">ATMOS v1.0</p>
-        <p className="text-xs text-muted">UTP — Proyecto JIC 2025</p>
-      </div>
-    </aside>
+          <p className="block md:hidden lg:block px-6 mt-6 mb-2 text-xs font-semibold text-muted uppercase tracking-wider">
+            Sistema
+          </p>
+          <div className="hidden lg:block w-full border-t border-gray-100 mx-2 mt-4 mb-2 md:hidden lg:hidden" />
+          <div className="flex flex-col gap-0.5 mt-4 lg:mt-0">
+            {navSistema.map((elemento) => (
+              <div key={elemento.ruta} className="relative">
+                <ElementoNav elemento={elemento} cantidadAlertas={cantidadAlertas} />
+              </div>
+            ))}
+          </div>
+        </nav>
+
+        {/* Pie */}
+        <div className="px-4 py-4 block md:hidden lg:block">
+          <p className="text-xs text-muted">ATMOS v1.0</p>
+          <p className="text-xs text-muted">UTP — Proyecto JIC 2025</p>
+        </div>
+      </aside>
+    </>
   )
 }

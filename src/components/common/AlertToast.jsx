@@ -69,7 +69,9 @@ export default function AlertToastContainer({ toasts, alCerrar }) {
   if (!toasts.length) return null
 
   return (
-    <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
+    <div className="fixed z-50 flex flex-col gap-2 pointer-events-none
+                    bottom-4 left-4 right-4
+                    sm:bottom-auto sm:top-4 sm:left-auto sm:right-4 sm:w-80">
       {toasts.map(toast => (
         <div key={toast.id} className="pointer-events-auto">
           <ToastIndividual toast={toast} alCerrar={alCerrar} />

@@ -16,7 +16,14 @@ import RoomFormModal   from "../components/common/RoomFormModal"
 import { obtenerSalones, obtenerUltimaLecturaDetalladaSalon } from "../api/rooms"
 
 const ENCABEZADOS_TABLA = [
-  "Salón", "Estado", "Temp", "Humedad", "Consumo", "AC", "Capacidad", "Acciones"
+  { texto: "Salón",     clase: "" },
+  { texto: "Estado",    clase: "" },
+  { texto: "Temp",      clase: "" },
+  { texto: "Humedad",   clase: "hidden md:table-cell" },
+  { texto: "Consumo",   clase: "hidden md:table-cell" },
+  { texto: "AC",        clase: "" },
+  { texto: "Capacidad", clase: "hidden lg:table-cell" },
+  { texto: "Acciones",  clase: "" },
 ]
 
 const OPCIONES_FILTRO = [
@@ -37,7 +44,7 @@ function estaEnLinea(lectura) {
 
 function TarjetaEstadistica({ icono, valor, etiqueta, colorTexto }) {
   return (
-    <div className="card flex items-center gap-3 py-3 px-4">
+    <div className="card flex items-center gap-2 lg:gap-3 py-2 lg:py-3 px-3 lg:px-4">
       <span className={colorTexto}>{icono}</span>
       <div>
         <p className={`text-xl font-bold ${colorTexto}`}>{valor}</p>
@@ -137,7 +144,7 @@ export default function RoomsPage() {
     <PageWrapper>
 
       {/* ── Fila 1: Encabezado ──────────────────────────────────────── */}
-      <div className="flex items-start justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-dark">Salones registrados</h2>
           <p className="text-sm text-muted mt-0.5">
@@ -151,7 +158,7 @@ export default function RoomsPage() {
       </div>
 
       {/* ── Fila 2: Estadísticas ────────────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-3 gap-2 lg:gap-4 mb-6">
         <TarjetaEstadistica
           icono={<MdCheckCircle size={22} />}
           valor={conteoEnLinea}
@@ -173,9 +180,9 @@ export default function RoomsPage() {
       </div>
 
       {/* ── Fila 3: Búsqueda y filtros ──────────────────────────────── */}
-      <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
         {/* Búsqueda */}
-        <div className="relative w-64">
+        <div className="relative w-full sm:w-64">
           <MdSearch size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
           <input
             type="text"
@@ -207,12 +214,12 @@ export default function RoomsPage() {
         <table className="w-full text-sm">
           <thead className="bg-gray-50 sticky top-0">
             <tr>
-              {ENCABEZADOS_TABLA.map(encabezado => (
+              {ENCABEZADOS_TABLA.map(enc => (
                 <th
-                  key={encabezado}
-                  className="px-4 py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide"
+                  key={enc.texto}
+                  className={`px-2 py-2 lg:px-4 lg:py-3 text-left text-xs font-semibold text-muted uppercase tracking-wide ${enc.clase}`}
                 >
-                  {encabezado}
+                  {enc.texto}
                 </th>
               ))}
             </tr>
@@ -231,7 +238,7 @@ export default function RoomsPage() {
               ))
             ) : !salonesFiltrados.length ? (
               <tr>
-                <td colSpan={8} className="px-4 py-16 text-center">
+                <td colSpan={8} className="px-2 py-16 text-center">
                   <MdMeetingRoom size={40} className="text-muted mx-auto mb-3" />
                   <p className="text-sm font-medium text-dark">No se encontraron salones</p>
                   {terminoBusqueda ? (
