@@ -1,0 +1,62 @@
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from "recharts"
+
+function TooltipPersonalizado({ active, payload, label }) {
+  if (!active || !payload?.length) return null
+  return (
+    <div className="bg-white shadow-md rounded-xl px-3 py-2 text-xs border border-gray-100">
+      <p className="text-muted mb-0.5">{label}</p>
+      <p className="font-semibold text-dark">{payload[0].value?.toFixed(0)} W</p>
+    </div>
+  )
+}
+
+export default function PowerChart({ datos = [], cargando = false }) {
+  if (cargando) {
+    return <div className="h-[180px] bg-gray-100 rounded-xl animate-pulse" />
+  }
+
+  return (
+    <ResponsiveContainer width="100%" height={180}>
+      <AreaChart data={datos} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+        <defs>
+          <linearGradient id="gradientePotencia" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%"  stopColor="#2ABFBF" stopOpacity={0.15} />
+            <stop offset="95%" stopColor="#2ABFBF" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
+        <XAxis
+          dataKey="tiempo"
+          tick={{ fontSize: 11, fill: "#64748B" }}
+          axisLine={false}
+          tickLine={false}
+        />
+        <YAxis
+          unit=" W"
+          tick={{ fontSize: 11, fill: "#64748B" }}
+          axisLine={false}
+          tickLine={false}
+          width={52}
+        />
+        <Tooltip content={<TooltipPersonalizado />} />
+        <Area
+          type="monotone"
+          dataKey="potencia_w"
+          stroke="#2ABFBF"
+          strokeWidth={2}
+          fill="url(#gradientePotencia)"
+          dot={false}
+          activeDot={{ r: 4, fill: "#2ABFBF" }}
+        />
+      </AreaChart>
+    </ResponsiveContainer>
+  )
+}

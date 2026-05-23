@@ -1,0 +1,87 @@
+import { MdMonitor, MdEdit } from "react-icons/md"
+
+function minutosDesde(iso) {
+  if (!iso) return Infinity
+  return Math.floor((Date.now() - new Date(iso).getTime()) / 60000)
+}
+
+function InsigniaEstado({ lectura }) {
+  if (!lectura) return <span className="badge-muted">Sin datos</span>
+  const minutos = minutosDesde(lectura.recorded_at)
+  if (minutos > 10) return <span className="badge-danger">Sin señal</span>
+  return <span className="badge-success">En línea</span>
+}
+
+function ColorTemperatura({ temperatura }) {
+  if (temperatura == null) return <span className="text-muted">—</span>
+  const clase = temperatura > 26 ? "text-warning" : temperatura <= 24 ? "text-success" : "text-dark"
+  return <span className={`font-medium ${clase}`}>{temperatura.toFixed(1)} °C</span>
+}
+
+export default function RoomRow({ salon, lectura, alEditar, alMonitorear }) {
+  return (
+    <tr className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+      {/* Nombre */}
+      <td className="px-4 py-3">
+        <p className="font-medium text-dark text-sm">{salon.name}</p>
+        <p className="text-xs text-muted">
+          {salon.pavilion && `${salon.pavilion} · `}
+          {salon.floor != null && `Piso ${salon.floor}`}
+        </p>
+      </td>
+
+      {/* Estado */}
+      <td className="px-4 py-3">
+        <InsigniaEstado lectura={lectura} />
+      </td>
+
+      {/* Temperatura */}
+      <td className="px-4 py-3 text-sm">
+        <ColorTemperatura temperatura={lectura?.temperature ?? null} />
+      </td>
+
+      {/* Humedad */}
+      <td className="px-4 py-3 text-sm text-dark">
+        {lectura?.humidity != null ? `${lectura.humidity.toFixed(0)} %` : "—"}
+      </td>
+
+      {/* Consumo */}
+      <td className="px-4 py-3 text-sm text-dark">
+        {lectura?.power_w != null ? `${lectura.power_w.toFixed(0)} W` : "—"}
+      </td>
+
+      {/* AC */}
+      <td className="px-4 py-3">
+        {lectura?.ac_is_on
+          ? <span className="badge-success">Encendido</span>
+          : <span className="badge-muted">Apagado</span>
+        }
+      </td>
+
+      {/* Capacidad */}
+      <td className="px-4 py-3 text-sm text-dark">
+        {salon.capacity != null ? `${salon.capacity} personas` : "—"}
+      </td>
+
+      {/* Acciones */}
+      <td className="px-4 py-3">
+        <div className="flex items-center gap-1">
+          <button
+            onClick={alMonitorear}
+            title="Ver monitoreo"
+            className="p-1.5 rounded-lg text-secondary hover:bg-secondary/10 transition-colors"
+          >
+            <MdMonitor size={17} />
+          </button>
+          <button
+            onClick={alEditar}
+            title="Editar salón"
+            className="p-1.5 rounded-lg text-muted hover:bg-gray-100 transition-colors"
+          >
+            <MdEdit size={17} />
+          </button>
+        </div>
+      </td>
+    </tr>
+  )
+}

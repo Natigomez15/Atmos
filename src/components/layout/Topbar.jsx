@@ -1,0 +1,79 @@
+import { useEffect, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+import { MdNotifications } from "react-icons/md"
+
+const TITULOS_PAGINA = {
+  "/dashboard":   "Panel de Control",
+  "/rooms":       "Salones",
+  "/monitoring":  "Monitoreo en Tiempo Real",
+  "/commands":    "Comandos AC",
+  "/predictions": "Predicciones ML",
+  "/alerts":      "Alertas",
+  "/reports":     "Reportes",
+  "/nodes":       "Nodos ESP32",
+  "/settings":    "Ajustes",
+}
+
+function formatearFecha(fecha) {
+  return fecha.toLocaleString("es-PE", {
+    weekday: "short",
+    day:     "2-digit",
+    month:   "short",
+    year:    "numeric",
+    hour:    "2-digit",
+    minute:  "2-digit",
+    hour12:  false,
+  })
+}
+
+export default function Topbar({ cantidadAlertas = 0, wsConectado = false }) {
+  const ubicacion = useLocation()
+  const navegar   = useNavigate()
+  const titulo    = TITULOS_PAGINA[ubicacion.pathname] ?? "ATMOS"
+
+  const [ahora, setAhora] = useState(() => formatearFecha(new Date()))
+
+  useEffect(() => {
+    const intervalo = setInterval(() => setAhora(formatearFecha(new Date())), 60000)
+    return () => clearInterval(intervalo)
+  }, [])
+
+  return (
+    <header className="h-16 bg-surface border-b border-gray-100 flex items-center justify-between px-6 flex-shrink-0">
+      {/* Izquierda — título de página */}
+      <h1 className="text-lg font-semibold text-dark">{titulo}</h1>
+
+      {/* Derecha — indicadores de estado */}
+      <div className="flex items-center gap-5">
+        {/* Estado de conexión */}
+        <div className="flex items-center gap-1.5">
+          <span
+            className={`w-2 h-2 rounded-full ${
+              wsConectado ? "bg-success animate-pulse" : "bg-danger"
+            }`}
+          />
+          <span className="text-xs text-muted">
+            {wsConectado ? "Conectado" : "Desconectado"}
+          </span>
+        </div>
+
+        {/* Campana de alertas */}
+        <button
+          onClick={() => navegar("/alerts")}
+          className="relative cursor-pointer text-muted hover:text-dark transition-colors"
+          aria-label="Ver alertas"
+        >
+          <MdNotifications size={20} />
+          {cantidadAlertas > 0 && (
+            <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-0.5 bg-danger text-white text-[10px] font-medium rounded-full flex items-center justify-center">
+              {cantidadAlertas}
+            </span>
+          )}
+        </button>
+
+        {/* Fecha y hora */}
+        <span className="text-xs text-muted">{ahora}</span>
+      </div>
+    </header>
+  )
+}
